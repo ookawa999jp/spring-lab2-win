@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.springlab.counter.CounterMapper">
+
+    <select id="selectCounterValue" resultType="int">
+        select counter_value
+        from counter
+        where id = #{id}
+    </select>
+
+    <!--
+        本来は counter_value = counter_value + 1 の1文で足りるが、
+        Hibernate と MyBatis の混在トランザクション検証のため、
+        Java 側で SELECT した値を引数として渡す冗長な実装にしている。
+    -->
+    <update id="updateCounterValue">
+        update counter
+        set counter_value = #{currentValue} + 1
+        where id = #{id}
+    </update>
+
+</mapper>
