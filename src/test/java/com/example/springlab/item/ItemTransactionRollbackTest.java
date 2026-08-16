@@ -23,54 +23,58 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 class ItemTransactionRollbackTest {
 
-  private static final String MARKER = "___rollback_marker___";
+    private static final String MARKER = "___rollback_marker___";
 
-  @Autowired private FailingService failingService;
-  @Autowired private ItemRepository itemRepository;
+    @Autowired
+    private FailingService failingService;
+    @Autowired
+    private ItemRepository itemRepository;
 
-  @AfterEach
-  void cleanUp() {
-    itemRepository.findAll().stream()
-        .filter(it -> MARKER.equals(it.getName()))
-        .forEach(it -> itemRepository.deleteById(it.getId()));
-  }
-
-  @Test
-  void savedRowIsRolledBackWhenExceptionThrownInsideTransaction() {
-    long before = countMarkerRows();
-
-    assertThatThrownBy(() -> failingService.saveThenFail(MARKER))
-        .isInstanceOf(RuntimeException.class);
-
-    long after = countMarkerRows();
-    // 例外でロールバックされたため、save したはずの行は残っていない。
-    assertThat(after).isEqualTo(before);
-  }
-
-  private long countMarkerRows() {
-    return itemRepository.findAll().stream().filter(it -> MARKER.equals(it.getName())).count();
-  }
-
-  /** 「save 後に例外を投げる」だけのテスト用サービス。{@code @Transactional} の proxy を効かせるため Bean 化する。 */
-  static class FailingService {
-    private final ItemRepository itemRepository;
-
-    FailingService(ItemRepository itemRepository) {
-      this.itemRepository = itemRepository;
+    @AfterEach
+    void cleanUp() {
+        itemRepository.findAll().stream()
+                .filter(it -> MARKER.equals(it.getName()))
+                .forEach(it -> itemRepository.deleteById(it.getId()));
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    void saveThenFail(String name) {
-      itemRepository.save(new Item(name, 999, "ロールバックされるはず"));
-      throw new RuntimeException("intentional failure after save");
-    }
-  }
+    @Test
+    void savedRowIsRolledBackWhenExceptionThrownInsideTransaction() {
+        long before = countMarkerRows();
 
-  @TestConfiguration
-  static class RollbackTestConfig {
-    @Bean
-    FailingService failingService(ItemRepository itemRepository) {
-      return new FailingService(itemRepository);
+        assertThatThrownBy(() -> failingService.saveThenFail(MARKER))
+                .isInstanceOf(RuntimeException.class);
+
+        long after = countMarkerRows();
+        // 例外でロールバックされたため、save したはずの行は残っていない。
+        assertThat(after).isEqualTo(before);
     }
-  }
+
+    private long countMarkerRows() {
+        return itemRepository.findAll().stream().filter(it -> MARKER.equals(it.getName())).count();
+    }
+
+    /**
+     * 「save 後に例外を投げる」だけのテスト用サービス。{@code @Transactional} の proxy を効かせるため Bean 化する。
+     */
+    static class FailingService {
+        private final ItemRepository itemRepository;
+
+        FailingService(ItemRepository itemRepository) {
+            this.itemRepository = itemRepository;
+        }
+
+        @Transactional(rollbackFor = Exception.class)
+        void saveThenFail(String name) {
+            itemRepository.save(new Item(name, 999, "ロールバックされるはず"));
+            throw new RuntimeException("intentional failure after save");
+        }
+    }
+
+    @TestConfiguration
+    static class RollbackTestConfig {
+        @Bean
+        FailingService failingService(ItemRepository itemRepository) {
+            return new FailingService(itemRepository);
+        }
+    }
 }

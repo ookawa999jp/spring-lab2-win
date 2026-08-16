@@ -8,7 +8,7 @@ package com.example.springlab.item;
  */
 public class ItemNotFoundException extends RuntimeException {
 
-  public ItemNotFoundException() {
-    super("商品が存在しません");
-  }
+    public ItemNotFoundException() {
+        super("商品が存在しません");
+    }
 }

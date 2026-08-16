@@ -102,7 +102,7 @@
 
 ## 10. 品質
 
-- [x] `./mvnw spotless:apply`（Google Java Format）でフォーマット
-- [x] 既存テスト（`SpringLabApplicationTests`）がグリーン
+- [x] Windows + IntelliJ IDEA 版では Spotless を外し、IntelliJ IDEA 標準フォーマッター方針に合わせた（`pom.xml` から `spotless-maven-plugin` を削除済み）
+- [x] 既存テスト（`SpringLab2WinApplicationTests`）がグリーン
 - [x] （任意）Item CRUD の統合テスト追加（`ItemIntegrationTest`: MockMvc で CRUD/404/400 を検証、10件）
 </content>
