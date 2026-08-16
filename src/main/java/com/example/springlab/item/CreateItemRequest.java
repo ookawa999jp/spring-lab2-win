@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Size;
  * </ul>
  */
 public record CreateItemRequest(
-    @NotBlank @Size(max = 40) String name,
-    @NotNull @Min(1) Integer price,
-    @Size(max = 1000) String description) {}
+        @NotBlank @Size(max = 40) String name,
+        @NotNull @Min(1) Integer price,
+        @Size(max = 1000) String description) {
+}

@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/auth")
 public class AuthController {
 
-  private final AuthService authService;
+    private final AuthService authService;
 
-  public AuthController(AuthService authService) {
-    this.authService = authService;
-  }
+    public AuthController(AuthService authService) {
+        this.authService = authService;
+    }
 
-  @PostMapping("/login")
-  public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
-    String accessToken = authService.login(request.userId(), request.password());
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request) {
+        String accessToken = authService.login(request.userId(), request.password());
 
-    return ResponseEntity.ok(new LoginResponse("Bearer", accessToken));
-  }
+        return ResponseEntity.ok(new LoginResponse("Bearer", accessToken));
+    }
 }

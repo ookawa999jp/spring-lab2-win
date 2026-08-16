@@ -7,6 +7,6 @@ package com.example.springlab.item;
  * Hibernate の {@code @Enumerated(EnumType.STRING)} で VARCHAR として保存する。
  */
 public enum ItemStatus {
-  ON_SALE,
-  SOLD_OUT
+    ON_SALE,
+    SOLD_OUT
 }

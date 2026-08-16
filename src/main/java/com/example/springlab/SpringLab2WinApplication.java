@@ -6,8 +6,8 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
 @SpringBootApplication
 @ConfigurationPropertiesScan
-public class SpringLabApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(SpringLabApplication.class, args);
-  }
+public class SpringLab2WinApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(SpringLab2WinApplication.class, args);
+    }
 }

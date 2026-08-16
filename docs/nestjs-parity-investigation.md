@@ -1,7 +1,7 @@
 # NestJS(Prisma) → Spring Boot(Hibernate) 移植調査
 
 対象: `/udemy/NestJs/nestjs-fileamarket` の Item 機能を、このコードベース
-(`spring-lab2`) で同一仕様に再現する。
+(`spring-lab2-win`) で同一仕様に再現する。
 
 - 調査日: 2026-08-13
 - 元アプリ: NestJS 11 + Prisma 7 (PostgreSQL, `@prisma/adapter-pg`)
